@@ -1,0 +1,8 @@
+-r testing.pip
+ipython
+https://github.com/mverteuil/pytest-ipdb/archive/106a6ed0deacff7b5c2dc2d72ab1d85fdf407193.zip#egg=pytest-ipdb
+flake8
+bumpversion
+autopep8
+isort
+tox

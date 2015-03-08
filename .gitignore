@@ -1,0 +1,7 @@
+__pycache__
+*.py[ocd]
+*.egg-info
+
+.coverage_html_report
+.tox
+.coverage
