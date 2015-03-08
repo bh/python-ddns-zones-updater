@@ -1,0 +1,11 @@
+[run]
+omit = ddns_zones_updater/__init__.py
+branch = True
+
+[report]
+exclude_lines =
+    pragma: no cover
+    @abc
+
+[html]
+directory = .coverage_html_report
