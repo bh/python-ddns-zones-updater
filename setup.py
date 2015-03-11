@@ -16,7 +16,7 @@ if sys.version_info[:-3] == (2, 6):
 
 
 setup(name="ddns-zones-updater",
-      version="0.0.0",
+      version="0.0.1",
       description=("DNSPython wrapper for manipulate DNS zones"
                    "configurations via dynamic updates (RFC 2136)"),
       long_description=long_description,
