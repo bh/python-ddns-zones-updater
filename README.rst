@@ -1,5 +1,6 @@
 Python DDNS zones updater
 =========================
+|Build Status| |Coveralls| |License| |Stars| |Requirements|
 
 Description
 -----------
@@ -137,3 +138,17 @@ Or the BIND zone config file on server:
     $TTL 3600       ; 1 hour
     foo                      A       178.0.223.200
     [...]
+
+.. |Build Status| image:: https://travis-ci.org/bh/python-ddns-zones-updater.svg?branch=master
+    :target: https://travis-ci.org/bh/python-ddns-zones-updater
+.. |Coveralls| image:: https://coveralls.io/repos/bh/python-ddns-zones-updater/badge.svg?branch=master 
+    :target: https://coveralls.io/r/bh/python-ddns-zones-updater?branch=master
+.. |License| image:: https://img.shields.io/badge/license-GPLv2-blue.svg   
+    :target: https://raw.githubusercontent.com/bh/python-ddns-zones-updater/master/LICENSE
+.. |Stars| image:: https://img.shields.io/github/stars/bh/python-ddns-zones-updater.svg   
+    :target: https://github.com/bh/python-ddns-zones-updater/stargazers
+.. |Requirements| image:: https://requires.io/github/bh/python-ddns-zones-updater/requirements.svg?branch=master
+    :target: https://requires.io/github/bh/python-ddns-zones-updater/requirements/?branch=master
+    :alt: Requirements Status
+
+
