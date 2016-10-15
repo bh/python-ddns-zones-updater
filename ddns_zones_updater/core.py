@@ -26,12 +26,3 @@ class DDNSZoneUpdater(object):
         for host in self.config.hosts:
             log.info("Updating host %s" % host.title)
             host.do_update(current_wan_ip)
-
-    def autoupdate(self):
-        while True:
-            try:
-                time.sleep(float(self.config.interval))
-                self.run()
-            except Exception as exc:
-                log.error("Shutting down with exception: '%s'" % exc)
-                return

@@ -33,4 +33,4 @@ def main():
     # import this here because of the logging configuration
     from .core import DDNSZoneUpdater
     updater = DDNSZoneUpdater(config_path=config_path)
-    updater.autoupdate()
+    updater.run()

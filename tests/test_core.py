@@ -56,25 +56,3 @@ def test_run(updater_without_calling_init, fake_config_reader_with_two_hosts):
             host.do_update.assert_called_once_with("1.1.1.1")
 
         mock_my_ip.assert_called_once_with()
-
-
-@mock.patch("time.sleep")
-def test_autoupdate(mock_sleep, updater_without_calling_init):
-    updater = updater_without_calling_init
-    updater.config = mock.Mock(interval="0.1")
-
-    # Here it is impossible to throw a KeyboardInterrupt or
-    # SystemExit exception, because pytest will catch these.
-    class FakeException(Exception):
-        pass
-
-    with mock.patch.object(DDNSZoneUpdater, "run") as mock_run:
-        mock_run.side_effect = [
-            "ok", "ok", "ok", FakeException("foo is invalid")]
-        updater.autoupdate()
-
-        assert mock_run.call_count == 4
-
-    assert mock_sleep.call_args_list == [
-        mock.call(0.1), mock.call(0.1), mock.call(0.1), mock.call(0.1)
-    ]
