@@ -29,9 +29,12 @@ def test_build_keyring(fake_host):
         mock_from_text.assert_called_once_with({'keyname': 'secret'})
 
 
+@mock.patch("socket.gethostbyname")
 @mock.patch.object(dns.resolver.Resolver, "query")
-def test_published_ip(mock_query, fake_host):
+def test_published_ip(mock_query, mock_gethostbyname, fake_host):
     fake_host.title = "bla.foo.org"
+    fake_host.dnsserver = "foo.org"
+    mock_gethostbyname.return_value = "8.8.8.8"
     fake_host.get_published_ip()
     mock_query.assert_called_once_with("bla.foo.org", dns.rdatatype.A)
 

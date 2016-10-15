@@ -1,6 +1,8 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, print_function, unicode_literals
 
+import datetime
 import logging
+import socket
 
 import dns.message
 import dns.query
@@ -24,8 +26,7 @@ class Host(object):
 
     def get_published_ip(self):
         resolver = dns.resolver.Resolver()
-        #  resolver.nameservers = ['8.8.8.8', '8.8.4.4']
-
+        resolver.nameservers = [socket.gethostbyname(self.dnsserver)]
         answers = resolver.query(self.title, dns.rdatatype.A)
         return answers[0].address
 
