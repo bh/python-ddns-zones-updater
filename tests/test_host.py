@@ -11,6 +11,7 @@ from ddns_zones_updater.key import Key
 
 class FakeUpdate(mock.Mock):
     replace = mock.Mock()
+    add = mock.Mock()
 
 
 @pytest.fixture
@@ -72,5 +73,20 @@ def test_do_update_for_host_not_changed(mock_tcp, mock_get_published_ip,
     fake_host.do_update(current_ip="10.1.1.1")
 
     assert not mock_replace.called
-    assert not mock_update.called
     assert not mock_tcp.called
+
+@mock.patch("dns.update.Update", FakeUpdate)
+@mock.patch.object(FakeUpdate, "__init__", return_value=None)
+@mock.patch.object(FakeUpdate, "add")
+@mock.patch.object(Host, "build_keyring", return_value={"keyname": "secret"})
+@mock.patch.object(Host, "get_published_ip")
+@mock.patch("dns.query.tcp", return_value=None)
+def test_do_force_update_for_host(mock_tcp, mock_get_published_ip,
+                                  mock_build_keyring, mock_add,
+                                  mock_update, fake_host):
+
+    mock_get_published_ip.side_effect = dns.resolver.NXDOMAIN()
+    fake_host.do_update(current_ip="10.1.1.1")
+
+    assert mock_add.called
+    assert mock_tcp.called

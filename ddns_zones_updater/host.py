@@ -34,16 +34,21 @@ class Host(object):
         return dns.tsigkeyring.from_text({self.key.name: self.key.secret})
 
     def do_update(self, current_ip):
-        if self.get_published_ip() == current_ip:
-            log.info("No IP change for host %s, skipping update" % self.title)
-            return
-
-        log.info("Setting IP (A record) to %s for name %s" %
-                 (current_ip, self.name))
-
         keyring = self.build_keyring()
         update = dns.update.Update(self.zone, keyring=keyring)
-        update.replace(self.name, 3600, dns.rdatatype.A, current_ip)
+
+        try:
+            if self.get_published_ip() == current_ip:
+                log.info("No IP change for host %s, skipping update" % self.title)
+                return
+            update.replace(self.name, 3600, dns.rdatatype.A, current_ip)
+
+        except dns.resolver.NXDOMAIN as exc:
+            log.warning("%s seems not to be existing, add this record" % self.title)
+            # dns.resolver.NXDOMAIN: None of DNS query names exist: kiwisauce.dyndns.pagenotfound.de., kiwisauce.dyndns.pagenotfound.de.
+            update.add(self.name, 3600, dns.rdatatype.A, current_ip)
+
+        log.info("Setting IP (A record) to %s for name %s" % (current_ip, self.name))
         response = dns.query.tcp(update, self.dnsserver)
 
         # TODO: handle response
